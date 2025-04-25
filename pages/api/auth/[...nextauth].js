@@ -26,8 +26,4 @@ export const authOptions = {
   },
 };
 
-console.log("Google client ID:", process.env.GOOGLE_CLIENT_ID);
-console.log("Database URL:", process.env.DATABASE_URL);
-
-
 export default NextAuth(authOptions);
