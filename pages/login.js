@@ -1,16 +1,25 @@
-// pages/login.js (actualizado para usar NextAuth)
+// pages/login.js
 import { signIn } from "next-auth/react";
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 export default function Login() {
   const router = useRouter();
+  const [error, setError] = useState(null);
+  
+  useEffect(() => {
+    if (router.query.error) {
+      setError(router.query.error);
+    }
+  }, [router.query]);
   
   const handleGoogleLogin = () => {
     signIn('google', { callbackUrl: '/' });
   };
   
   const handleGuestAccess = () => {
-    router.push('/');
+    // Para acceso de invitado, simplemente redirigir sin autenticación
+    router.push('/guest');
   };
   
   return (
@@ -33,6 +42,13 @@ export default function Login() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          {error && (
+            <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
+              <p className="text-sm text-red-600">
+                Error: {error}
+              </p>
+            </div>
+          )}
           <div className="space-y-6">
             <button
               onClick={handleGoogleLogin}
@@ -75,10 +91,6 @@ export default function Login() {
               Usar sin cuenta
             </button>
           </div>
-          
-          <p className="mt-6 text-center text-xs text-gray-500">
-            Al continuar, aceptas nuestros términos de servicio y política de privacidad.
-          </p>
         </div>
       </div>
     </div>

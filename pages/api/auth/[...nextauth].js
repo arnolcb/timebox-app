@@ -1,3 +1,4 @@
+// pages/api/auth/[...nextauth].js
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
@@ -23,7 +24,9 @@ export const authOptions = {
   },
   pages: {
     signIn: '/login',
+    error: '/login',
   },
+  secret: process.env.NEXTAUTH_SECRET, // Añadir esta línea explícitamente
 };
 
 export default NextAuth(authOptions);
